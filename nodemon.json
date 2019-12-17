@@ -1,0 +1,9 @@
+{
+  "env": {
+    "DATABASE_TYPE": "postgres",
+    "DATABASE_USER": "postgres",
+    "DATABASE_DATABASE": "eligere",
+    "DATABASE_PASSWORD": "Kappa123",
+    "DATABASE_HOST": "localhost"
+  }
+}

@@ -1,0 +1,32 @@
+type Poll {
+  id: ID!
+  title: String!
+  desciprion: String!
+  userRequiredToVote: Boolean!
+  prevPoll: Poll
+  createdAt: String!
+  opensAt: String!
+  closesAt: String!
+}
+
+input PollInput {
+  title: String!
+  desciprion: String!
+  userRequiredToVote: Boolean!
+  prevPoll: Poll
+  opensAt: String!
+  closesAt: String!
+}
+
+type RootQuery {
+  polls: [Poll!]!
+}
+
+type RootMutation {
+  createPoll(eventInput: PollInput): Poll
+}
+
+schema {
+  query: RootQuery
+  mutation: RootMutation
+}
