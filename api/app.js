@@ -12,16 +12,10 @@ app.use(bodyParser.json());
 app.use('/graphql', generatedGraphql);
 
 app.listen(3000);
-models.User.create({
-  username: 'Kappa123',
-  displayName: 'Kappa123',
-  password: 'asdasdasd',
-  createdAt: new Date(),
-});
 
 let user = null;
 // return models.sequelize.sync({ force: true });
-
+/*
 models.User.create({
   username: 'asdasdasdasd',
   displayName: 'asdasdasdasd',
@@ -54,3 +48,4 @@ models.User.create({
     }).then(res => console.log(res));
   })
   .catch(err => console.log(err));
+*/
