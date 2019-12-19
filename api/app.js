@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const generatedGraphql = require('./graphql');
 
 // Database
-const models = require('./models');
+// const models = require('./models');
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use('/graphql', generatedGraphql);
 
 app.listen(3000);
 
-let user = null;
+// let user = null;
 // return models.sequelize.sync({ force: true });
 /*
 models.User.create({
