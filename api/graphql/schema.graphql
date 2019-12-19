@@ -4,3 +4,16 @@ type User {
   displayName: String!
   createdAt: String!
 }
+
+type RootQuery {
+  user: User!
+}
+
+type RootMutation {
+  createUser(password: String!, username: String!): User
+}
+
+schema {
+  query: RootQuery
+  mutation: RootMutation
+}

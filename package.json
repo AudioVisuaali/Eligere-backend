@@ -1,11 +1,11 @@
 {
-  "name": "visuals-backend",
+  "name": "eligere-backend",
   "version": "1.0.0",
-  "description": "Visuals backend",
+  "description": "Eligere backend",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=development nodemon ./api/app.js",
-    "prod": "cross-env NODE_ENV=production nodemon ./api/app.js"
+    "start": "cross-env NODE_ENV=development nodemon ./api/index.js",
+    "prod": "cross-env NODE_ENV=production nodemon ./api/index.js"
   },
   "keywords": [
     "node",
@@ -17,9 +17,12 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "chalk": "^3.0.0",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
+    "graphql-import": "^0.7.1",
+    "graphql-tools": "^4.0.6",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.14.0",
     "pg-hstore": "^2.3.3",
