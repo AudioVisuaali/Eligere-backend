@@ -28,5 +28,6 @@ type Query {
 }
 
 type Mutation {
-  createUser(password: String!, username: String!): User
+  createUser(password: String!, username: String!): User!
+  createPoll(title: String, description: String!, userRequired: Boolean!): Poll!
 }

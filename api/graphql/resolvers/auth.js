@@ -1,10 +1,13 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const models = require('../../models/user');
+const models = require('../../models');
+
+const loginErrorMsg = 'User or password incorrect!';
 
 module.exports = {
   createUser: async ({ username, password }) => {
-    const existingUser = models.Poll.findOne({
+    const existingUser = await models.User.findOne({
       where: { username },
     });
 
@@ -16,13 +19,33 @@ module.exports = {
     const user = await models.User.create({
       username,
       displayName: username,
+      createdAt: new Date(),
       password: hashedPassword,
     });
 
-    return { user };
+    return user.dataValues;
   },
 
-  version: () => {
-    return '1.0';
+  login: async ({ username, password }) => {
+    const user = await models.User.findOne({
+      where: { username },
+    });
+
+    if (!user) {
+      throw new Error(loginErrorMsg);
+    }
+
+    const isEqual = await bcrypt.compare(password, user.password);
+    if (!isEqual) {
+      throw new Error(loginErrorMsg);
+    }
+
+    const token = jwt.sign(
+      { userIdentifier: user.identifier, email: user.email },
+      'somesupersecretkey',
+      { expiresIn: '1h' }
+    );
+
+    return { user: user.dataValues, token: token, tokenExpiration: 1 };
   },
 };

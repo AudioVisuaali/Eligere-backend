@@ -2,6 +2,7 @@ const express = require('express');
 const chalk = require('chalk');
 const bodyParser = require('body-parser');
 const generatedGraphql = require('./graphql');
+const isAuth = require('./middleware/is-auth');
 
 // Database
 const models = require('./models');
@@ -10,7 +11,11 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use(isAuth);
+
 app.use('/graphql', generatedGraphql);
+
+// models.sequelize.sync({ force: true });
 
 function start(port) {
   return models.sequelize
