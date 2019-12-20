@@ -21,4 +21,8 @@ module.exports = {
 
     return { user };
   },
+
+  version: () => {
+    return '1.0';
+  },
 };

@@ -1,3 +1,19 @@
+type Poll {
+  id: ID!
+  title: String!
+  description: String!
+  createdAt: String!
+  userRequired: Boolean!
+  opensAt: String
+  closesAt: String
+}
+
+type AuthData {
+  user: User!
+  token: String!
+  tokenExpiration: Int!
+}
+
 type User {
   id: ID!
   username: String!
@@ -5,15 +21,12 @@ type User {
   createdAt: String!
 }
 
-type RootQuery {
-  user: User!
+type Query {
+  version: String!
+  poll(identifier: String!): Poll
+  login(username: String!, password: String!): AuthData!
 }
 
-type RootMutation {
+type Mutation {
   createUser(password: String!, username: String!): User
-}
-
-schema {
-  query: RootQuery
-  mutation: RootMutation
 }

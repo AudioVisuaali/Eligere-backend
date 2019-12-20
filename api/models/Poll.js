@@ -1,9 +1,16 @@
+const { generateShortUUID } = require('../utils/random');
+
 module.exports = (sequelize, DataTypes) => {
   const Poll = sequelize.define('Poll', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    identifier: {
+      type: DataTypes.UUID,
+      defaultValue: generateShortUUID,
+      primaryKey: true,
     },
     title: {
       type: DataTypes.STRING,

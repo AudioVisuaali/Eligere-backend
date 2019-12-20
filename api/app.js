@@ -22,7 +22,7 @@ function start(port) {
       console.log(msg);
       return app.listen(port, () => {
         const msg = `${chalk.magenta(
-          '[Eligere]'
+          '[Eligere ]'
         )} Server started on port:${chalk.magenta(process.env.PORT)}`;
         console.log(msg);
       });
