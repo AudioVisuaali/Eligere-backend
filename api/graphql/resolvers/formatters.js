@@ -27,7 +27,14 @@ function formatMovie(movie) {
       googleUsers: movie.googleUsers,
     },
     genres: () => movie.getGenres().map(formatGenre),
-    trailers: () => movie.getTrailers().map(formatPreview),
+    trailers: () => movie.getTrailers().map(formatTrailer),
+  };
+}
+
+function formatUser(user) {
+  return {
+    ...user.dataValues,
+    polls: () => user.getPolls({ limit: 20 }).map(formatPoll),
   };
 }
 
@@ -35,7 +42,7 @@ function formatGenre(genre) {
   return genre.dataValues;
 }
 
-function formatPreview(preview) {
+function formatTrailer(preview) {
   return preview.dataValues;
 }
 
@@ -63,7 +70,8 @@ module.exports = {
   movieFromJSON,
   formatPoll,
   formatMovie,
-  formatPreview,
+  formatTrailer,
   formatGenre,
+  formatUser,
   getPlatform,
 };

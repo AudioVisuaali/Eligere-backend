@@ -9,6 +9,7 @@ const environment = isProduction ? 'production' : 'default';
 const { error } = dotenv.config({ path: `environment.${environment}.env` });
 if (error) throw error;
 
+const bcrypt = require('bcryptjs');
 const models = require('../api/models');
 
 const genres = [
@@ -77,7 +78,9 @@ async function script() {
 
   const genres = await models.Genre.bulkCreate(generateGenres());
 
-  const user = await models.User.create(exampleUser);
+  const password = await bcrypt.hash(exampleUser.password, 12);
+
+  const user = await models.User.create({ ...exampleUser, password });
 
   const poll = await models.Poll.create(examplePoll);
 

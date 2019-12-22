@@ -70,11 +70,14 @@ type User {
   username: String!
   displayName: String!
   createdAt: String!
+  polls: [Poll!]!
 }
 
 type Query {
   genres: [Genre!]!
   version: String!
+  movie(identifier: String!): Movie!
+  trailer(identifier: String!): Trailer!
   poll(identifier: String!): Poll
   login(username: String!, password: String!): AuthData!
 }
@@ -83,6 +86,25 @@ type Mutation {
   createUser(password: String!, username: String!): User!
   updateDisplayName(displayName: String!): String!
   updatePassword(oldPassword: String!, newPassword: String!): Boolean
+  trailer(identifier: String!): Trailer!
+  updateMovie(
+    identifier: String!
+    title: String
+    thumbnail: String
+    description: String
+    release: String
+    length: Int
+    genres: [Int]
+    ratings: InputRating
+  ): Movie!
+  updatePoll(
+    identifier: String!
+    title: String
+    description: String
+    opensAt: String
+    closesAt: String
+  ): Poll!
+  updateTrailer(identifier: String!, url: String!): Trailer!
   createPoll(
     title: String
     description: String!

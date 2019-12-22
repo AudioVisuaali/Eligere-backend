@@ -7,15 +7,23 @@ module.exports = {
       where: { identifier: identifier },
     });
 
+    if (!poll) {
+      throw new Error('Poll does not exist');
+    }
+
     return formatPoll(poll);
   },
 
   createPoll: async (args, req) => {
     const { title, description, userRequired, movies } = args;
 
-    //const user = await models.User.findOne({
-    //  where: { identifier: req.userIdentifier },
-    //});
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
+    const user = await models.User.findOne({
+      where: { identifier: req.userIdentifier },
+    });
 
     const poll = await models.Poll.create({
       title,
@@ -39,6 +47,34 @@ module.exports = {
 
       await poll.addMovie(movie.id);
     }
+
+    poll.addUser(user);
+
+    return formatPoll(poll);
+  },
+
+  updatePoll: async (args, req) => {
+    const { identifier, ...rest } = args;
+
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
+    const poll = await models.Poll.findOne({
+      where: { identifier },
+    });
+
+    if (!poll) {
+      throw new Error('Poll does not exist');
+    }
+
+    const user = await poll.getUser();
+
+    if (user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to poll');
+    }
+
+    await poll.update(rest);
 
     return formatPoll(poll);
   },

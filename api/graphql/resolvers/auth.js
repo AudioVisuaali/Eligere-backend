@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const { formatUser } = require('./formatters');
 const models = require('../../models');
 
 const loginErrorMsg = 'User or password incorrect!';
@@ -46,6 +47,6 @@ module.exports = {
       { expiresIn: '1h' }
     );
 
-    return { user: user.dataValues, token: token, tokenExpiration: 1 };
+    return { user: formatUser(user), token: token, tokenExpiration: 1 };
   },
 };
