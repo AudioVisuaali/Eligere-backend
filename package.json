@@ -4,12 +4,13 @@
   "description": "Eligere backend",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=development nodemon ./api/index.js",
-    "prod": "cross-env NODE_ENV=production nodemon ./api/index.js"
+    "start": "cross-env NODE_ENV=development nodemon -e js,graphql ./api/index.js",
+    "prod": "cross-env NODE_ENV=production nodemon ./api/index.js",
+    "populate": "cross-env NODE_ENV=production node ./scripts/populate.js"
   },
   "keywords": [
     "node",
-    "restful",
+    "graphql",
     "api"
   ],
   "author": "Audiovisuaali",

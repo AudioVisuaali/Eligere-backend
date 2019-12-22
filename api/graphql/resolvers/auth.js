@@ -14,8 +14,8 @@ module.exports = {
     if (existingUser) {
       throw new Error('User exists already.');
     }
-    const hashedPassword = await bcrypt.hash(password, 12);
 
+    const hashedPassword = await bcrypt.hash(password, 12);
     const user = await models.User.create({
       username,
       displayName: username,
@@ -35,13 +35,13 @@ module.exports = {
       throw new Error(loginErrorMsg);
     }
 
-    const isEqual = await bcrypt.compare(password, user.password);
-    if (!isEqual) {
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
       throw new Error(loginErrorMsg);
     }
 
     const token = jwt.sign(
-      { userIdentifier: user.identifier, email: user.email },
+      { userIdentifier: user.identifier, username: user.username },
       'somesupersecretkey',
       { expiresIn: '1h' }
     );

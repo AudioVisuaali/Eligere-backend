@@ -4,4 +4,8 @@ function generateShortUUID() {
   return uuidv4().split('-', 1)[0];
 }
 
-module.exports = { generateShortUUID };
+function generateUUID() {
+  return uuidv4();
+}
+
+module.exports = { generateShortUUID, generateUUID };

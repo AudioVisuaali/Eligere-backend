@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Poll.associate = models => {
-    models.Poll.belongsTo(models.User, { as: 'user', onDelete: 'CASCADE' });
+    models.Poll.belongsTo(models.User, { onDelete: 'CASCADE' });
     models.Poll.hasMany(models.Movie, {
       onDelete: 'CASCADE',
     });
@@ -41,10 +41,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return Poll;
 };
-
-/*
-type Poll {
-  community: Community
-  prevPoll: Poll
-}
-*/

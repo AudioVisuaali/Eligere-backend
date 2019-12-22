@@ -1,9 +1,15 @@
+const { generateUUID } = require('../utils/random');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    identifier: {
+      type: DataTypes.STRING,
+      defaultValue: generateUUID,
     },
     username: {
       type: DataTypes.STRING,
@@ -31,9 +37,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return User;
 };
-
-/*
-type User {
-  posts: [Post!]!
-}
-*/

@@ -1,9 +1,15 @@
+const { generateShortUUID } = require('../utils/random');
+
 module.exports = (sequelize, DataTypes) => {
   const Trailer = sequelize.define('Trailer', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    identifier: {
+      type: DataTypes.STRING,
+      defaultValue: generateShortUUID,
     },
     platform: {
       type: DataTypes.STRING,
@@ -25,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
 
   Trailer.associate = models => {
     models.Trailer.belongsTo(models.Movie, {
-      as: 'trailer',
       onDelete: 'CASCADE',
     });
   };

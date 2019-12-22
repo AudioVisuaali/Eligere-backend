@@ -1,3 +1,5 @@
+const { generateShortUUID } = require('../utils/random');
+
 module.exports = (sequelize, DataTypes) => {
   const Movie = sequelize.define('Movie', {
     id: {
@@ -5,7 +7,15 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    identifier: {
+      type: DataTypes.STRING,
+      defaultValue: generateShortUUID,
+    },
     title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    thumbnail: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -13,16 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    releaseYear: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    releaseMonth: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    releaseDay: {
-      type: DataTypes.INTEGER,
+    released: {
+      type: DataTypes.DATE,
       allowNull: true,
     },
     length: {
@@ -52,20 +54,14 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Movie.associate = models => {
-    models.Movie.belongsTo(models.Poll, { as: 'movie', onDelete: 'CASCADE' });
+    models.Movie.belongsTo(models.Poll, { onDelete: 'CASCADE' });
     models.Movie.hasMany(models.Trailer, {
       onDelete: 'CASCADE',
+    });
+    models.Movie.belongsToMany(models.Genre, {
+      through: 'movie_genres',
     });
   };
 
   return Movie;
 };
-
-/*
-type Movie {
-  release: Release!
-  length: Int!
-  ratings: [Rating!]!
-  trailers: [Trailer!]!
-}
-*/

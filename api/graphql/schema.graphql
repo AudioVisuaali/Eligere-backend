@@ -1,11 +1,62 @@
-type Poll {
+type Trailer {
+  identifier: ID!
+  platform: String!
+  url: String!
+  slug: String!
+}
+
+type Genre {
   id: ID!
+  value: String!
+}
+
+type Ratings {
+  imdb: Int
+  rottenTomatoes: Int
+  metacritic: Int
+  googleUsers: Int
+}
+
+type Movie {
+  identifier: ID!
+  title: String!
+  thumbnail: String!
+  description: String!
+  release: String
+  length: Int
+  genres: [Genre!]!
+  trailers: [Trailer!]!
+  ratings: Ratings!
+  createdAt: String!
+}
+
+input InputRating {
+  imdb: Int
+  rottenTomatoes: Int
+  metacritic: Int
+  googleUsers: Int
+}
+
+input MovieInput {
+  title: String!
+  thumbnail: String!
+  description: String!
+  release: String!
+  length: Int
+  ratings: InputRating!
+  genres: [Int!]!
+  trailers: [String!]!
+}
+
+type Poll {
+  identifier: ID!
   title: String!
   description: String!
   createdAt: String!
   userRequired: Boolean!
   opensAt: String
   closesAt: String
+  movies: [Movie!]!
 }
 
 type AuthData {
@@ -15,13 +66,14 @@ type AuthData {
 }
 
 type User {
-  id: ID!
+  identifier: ID!
   username: String!
   displayName: String!
   createdAt: String!
 }
 
 type Query {
+  genres: [Genre!]!
   version: String!
   poll(identifier: String!): Poll
   login(username: String!, password: String!): AuthData!
@@ -29,5 +81,12 @@ type Query {
 
 type Mutation {
   createUser(password: String!, username: String!): User!
-  createPoll(title: String, description: String!, userRequired: Boolean!): Poll!
+  updateDisplayName(displayName: String!): String!
+  updatePassword(oldPassword: String!, newPassword: String!): Boolean
+  createPoll(
+    title: String
+    description: String!
+    userRequired: Boolean!
+    movies: [MovieInput!]!
+  ): Poll!
 }
