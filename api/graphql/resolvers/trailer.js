@@ -14,6 +14,35 @@ module.exports = {
     return formatTrailer(trailer);
   },
 
+  createTrailer: async (args, req) => {
+    // Movie identifier
+    const { movieIdentifier, url } = args;
+
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
+    const movie = await models.Movie.findOne({
+      where: { movieIdentifier },
+    });
+
+    if (!movie) {
+      throw new Error('Movie does not exist');
+    }
+
+    const user = await movie.getPoll().getUser();
+
+    if (user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to poll');
+    }
+
+    const trailer = await models.Trailer.createt(getPlatform(url));
+
+    await movie.addTrailer(trailer);
+
+    return formatTrailer(trailer);
+  },
+
   updateTrailer: async (args, req) => {
     const { identifier, url } = args;
 

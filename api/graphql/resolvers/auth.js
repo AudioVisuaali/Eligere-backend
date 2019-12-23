@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const { formatUser } = require('./formatters');
 const models = require('../../models');
+const { passwordCheck } = require('../../utils/checks');
 
 const loginErrorMsg = 'User or password incorrect!';
 
@@ -14,6 +15,11 @@ module.exports = {
 
     if (existingUser) {
       throw new Error('User exists already.');
+    }
+
+    const { error, msg } = passwordCheck(password);
+    if (error) {
+      throw new Error(msg);
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);

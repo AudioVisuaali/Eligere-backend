@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const models = require('../../models');
+const { passwordCheck } = require('../../utils/checks');
 
 module.exports = {
   updateDisplayName: async ({ displayName }, req) => {
@@ -17,9 +18,14 @@ module.exports = {
       where: { identifier: req.userIdentifier },
     });
 
+    const { error, msg } = passwordCheck(newPassword);
+    if (error) {
+      throw new Error(`new-password: ${msg}`);
+    }
+
     const passwordMatch = await bcrypt.compare(oldPassword, user.password);
     if (!passwordMatch) {
-      throw new Error('Invalid password');
+      throw new Error('Invalid oldPassword');
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);

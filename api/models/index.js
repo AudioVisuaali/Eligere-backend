@@ -18,6 +18,7 @@ const sequelize = new Sequelize(
   }
 );
 
+// Add files from current directory
 fs.readdirSync(__dirname)
   .filter(file => {
     return (
@@ -29,6 +30,7 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+// Assign associations
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
