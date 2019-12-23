@@ -3,7 +3,23 @@ const models = require('../../models');
 const { passwordCheck } = require('../../utils/checks');
 
 module.exports = {
+  usernameExists: async ({ username }) => {
+    const existingUser = await models.User.findOne({
+      where: {
+        username: {
+          [models.Sequelize.Op.iLike]: username,
+        },
+      },
+    });
+
+    return !!existingUser;
+  },
+
   updateDisplayName: async ({ displayName }, req) => {
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
     const user = await models.User.findOne({
       where: { identifier: req.userIdentifier },
     });
@@ -14,6 +30,10 @@ module.exports = {
   },
 
   updatePassword: async ({ oldPassword, newPassword }, req) => {
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
     const user = await models.User.findOne({
       where: { identifier: req.userIdentifier },
     });

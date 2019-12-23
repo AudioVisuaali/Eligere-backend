@@ -3,23 +3,32 @@ const jwt = require('jsonwebtoken');
 
 const { formatUser } = require('./formatters');
 const models = require('../../models');
-const { passwordCheck } = require('../../utils/checks');
+const { passwordCheck, usernameCheck } = require('../../utils/checks');
 
 const loginErrorMsg = 'User or password incorrect!';
 
 module.exports = {
   createUser: async ({ username, password }) => {
     const existingUser = await models.User.findOne({
-      where: { username },
+      where: {
+        username: {
+          [models.Sequelize.Op.iLike]: username,
+        },
+      },
     });
 
     if (existingUser) {
       throw new Error('User exists already.');
     }
 
-    const { error, msg } = passwordCheck(password);
-    if (error) {
-      throw new Error(msg);
+    const { error: pError, msg: pMsg } = passwordCheck(password);
+    if (pError) {
+      throw new Error(pMsg);
+    }
+
+    const { uError, uMsg } = usernameCheck(username);
+    if (uError) {
+      throw new Error(uMsg);
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);

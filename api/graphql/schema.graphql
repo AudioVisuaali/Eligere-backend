@@ -80,6 +80,7 @@ type Query {
   trailer(identifier: String!): Trailer!
   poll(identifier: String!): Poll
   login(username: String!, password: String!): AuthData!
+  usernameExists(displayName: String!): Boolean!
 }
 
 type Mutation {
