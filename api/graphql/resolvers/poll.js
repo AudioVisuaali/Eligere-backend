@@ -78,4 +78,27 @@ module.exports = {
 
     return formatPoll(poll);
   },
+  deletePoll: async (args, req) => {
+    const { identifier } = args;
+
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
+    const poll = await models.Poll.findOne({
+      where: { identifier },
+    });
+
+    if (!poll) {
+      throw new Error('Trailer does not exist');
+    }
+
+    const user = await poll.getUser();
+
+    if (user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to poll');
+    }
+
+    poll.destroy();
+  },
 };

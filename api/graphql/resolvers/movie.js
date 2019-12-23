@@ -73,4 +73,27 @@ module.exports = {
 
     return formatMovie(movie);
   },
+  deleteMovie: async (args, req) => {
+    const { identifier } = args;
+
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
+    const movie = await models.Movie.findOne({
+      where: { identifier },
+    });
+
+    if (!movie) {
+      throw new Error('Trailer does not exist');
+    }
+
+    const user = await movie.getPoll().getUser();
+
+    if (user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to poll');
+    }
+
+    movie.destroy();
+  },
 };

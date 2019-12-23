@@ -45,4 +45,30 @@ module.exports = {
 
     return formatTrailer(trailer);
   },
+  deleteTrailer: async (args, req) => {
+    const { identifier } = args;
+
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
+    const trailer = await models.Trailer.findOne({
+      where: { identifier },
+    });
+
+    if (!trailer) {
+      throw new Error('Trailer does not exist');
+    }
+
+    const user = await trailer
+      .getMovie()
+      .getPoll()
+      .getUser();
+
+    if (user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to poll');
+    }
+
+    trailer.destroy();
+  },
 };

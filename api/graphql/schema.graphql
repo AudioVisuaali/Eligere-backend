@@ -111,4 +111,8 @@ type Mutation {
     userRequired: Boolean!
     movies: [MovieInput!]!
   ): Poll!
+
+  deleteTrailer(identifier: String!): Boolean
+  deleteMovie(identifier: String!): Boolean
+  deletePoll(identifier: String!): Boolean
 }
