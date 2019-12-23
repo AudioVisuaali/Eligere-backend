@@ -36,7 +36,7 @@ module.exports = {
       throw new Error('No permissions to poll');
     }
 
-    const trailer = await models.Trailer.createt(getPlatform(url));
+    const trailer = await models.Trailer.create(getPlatform(url));
 
     await movie.addTrailer(trailer);
 
