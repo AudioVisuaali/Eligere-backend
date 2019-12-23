@@ -8,10 +8,5 @@ const environment = isProduction ? 'production' : 'default';
 const { error } = dotenv.config({ path: `environment.${environment}.env` });
 if (error) throw error;
 
-// Config app
-
-const app = require('./app');
-
-const port = process.env.PORT || 3000;
-
-app.start(port);
+// Start app
+require('./app');

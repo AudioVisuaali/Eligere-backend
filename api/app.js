@@ -4,6 +4,19 @@ const bodyParser = require('body-parser');
 const generatedGraphql = require('./graphql');
 const isAuth = require('./middleware/is-auth');
 
+// Variables
+const port = process.env.PORT || 3000;
+const dbConnected = () =>
+  console.log(
+    `${chalk.magenta('[Database]')} Connection has been established.`
+  );
+const appListening = () =>
+  console.log(
+    `${chalk.magenta('[Eligere ]')} Server started on port: ${chalk.magenta(
+      process.env.PORT
+    )}`
+  );
+
 // Database
 const models = require('./models');
 
@@ -15,24 +28,11 @@ app.use(isAuth);
 
 app.use('/graphql', generatedGraphql);
 
-function start(port) {
-  return models.sequelize
-    .authenticate()
-    .then(() => {
-      const msg = `${chalk.magenta(
-        '[Database]'
-      )} Connection has been established.`;
-      console.log(msg);
-      return app.listen(port, () => {
-        const msg = `${chalk.magenta(
-          '[Eligere ]'
-        )} Server started on port:${chalk.magenta(process.env.PORT)}`;
-        console.log(msg);
-      });
-    })
-    .catch(err => {
-      console.error('[Database] Unable to connect to the database:', err);
-    });
+async function start() {
+  await models.sequelize.authenticate();
+  dbConnected();
+
+  app.listen(port, appListening);
 }
 
-module.exports = { start };
+start();
