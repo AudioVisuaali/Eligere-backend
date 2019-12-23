@@ -13,6 +13,7 @@ module.exports = {
 
     return formatMovie(movie);
   },
+
   updateMovie: async (args, req) => {
     const {
       identifier,
@@ -73,6 +74,7 @@ module.exports = {
 
     return formatMovie(movie);
   },
+
   deleteMovie: async (args, req) => {
     const { identifier } = args;
 

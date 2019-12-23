@@ -78,6 +78,7 @@ module.exports = {
 
     return formatPoll(poll);
   },
+
   deletePoll: async (args, req) => {
     const { identifier } = args;
 

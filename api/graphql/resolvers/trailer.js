@@ -13,6 +13,7 @@ module.exports = {
 
     return formatTrailer(trailer);
   },
+
   updateTrailer: async (args, req) => {
     const { identifier, url } = args;
 
@@ -45,6 +46,7 @@ module.exports = {
 
     return formatTrailer(trailer);
   },
+
   deleteTrailer: async (args, req) => {
     const { identifier } = args;
 
