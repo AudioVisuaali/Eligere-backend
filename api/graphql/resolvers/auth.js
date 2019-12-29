@@ -44,7 +44,11 @@ module.exports = {
 
   login: async ({ username, password }) => {
     const user = await models.User.findOne({
-      where: { username },
+      where: {
+        username: {
+          [models.Sequelize.Op.iLike]: username,
+        },
+      },
     });
 
     if (!user) {

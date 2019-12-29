@@ -22,7 +22,7 @@ type Movie {
   title: String!
   thumbnail: String!
   description: String!
-  release: String
+  released: String
   length: Int
   genres: [Genre!]!
   trailers: [Trailer!]!
@@ -41,7 +41,7 @@ input MovieInput {
   title: String!
   thumbnail: String!
   description: String!
-  release: String!
+  released: String!
   length: Int
   ratings: InputRating!
   genres: [Int!]!
@@ -93,7 +93,7 @@ type Mutation {
     title: String
     thumbnail: String
     description: String
-    release: String
+    released: String
     length: Int
     genres: [Int]
     ratings: InputRating

@@ -6,7 +6,6 @@ function movieFromJSON(movie) {
     rottenTomatoes,
     metacritic,
     googleUsers,
-    createdAt: new Date(),
   };
 }
 
