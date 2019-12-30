@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const models = require('../../models');
+const models = require('../../sequelize');
 const { passwordCheck } = require('../../utils/checks');
 
 module.exports = {

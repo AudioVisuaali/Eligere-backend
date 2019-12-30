@@ -18,7 +18,7 @@ const appListening = () =>
   );
 
 // Database
-const models = require('./models');
+const models = require('./sequelize');
 
 const app = express();
 

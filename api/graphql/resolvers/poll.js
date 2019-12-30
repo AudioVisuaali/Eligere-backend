@@ -1,5 +1,5 @@
 const { movieFromJSON, formatPoll, getPlatform } = require('./formatters');
-const models = require('../../models');
+const models = require('../../sequelize');
 
 module.exports = {
   poll: async ({ identifier }) => {

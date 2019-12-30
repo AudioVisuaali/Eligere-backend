@@ -1,5 +1,5 @@
 const { formatMovie, getPlatform, movieFromJSON } = require('./formatters');
-const models = require('../../models');
+const models = require('../../sequelize');
 
 module.exports = {
   movie: async ({ identifier }) => {

@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const { formatUser } = require('./formatters');
-const models = require('../../models');
+const models = require('../../sequelize');
 const { passwordCheck, usernameCheck } = require('../../utils/checks');
 
 const loginErrorMsg = 'User or password incorrect!';
