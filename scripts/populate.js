@@ -33,7 +33,7 @@ const exampleUser = {
 };
 
 const examplePoll = {
-  title: 'Example poll',
+  title: 'Movie night banter IT support crew #15',
   description: 'This is an example poll',
   userRequired: false,
   createdAt: new Date(),

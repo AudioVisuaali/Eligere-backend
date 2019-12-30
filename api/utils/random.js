@@ -8,4 +8,8 @@ function generateUUID() {
   return uuidv4();
 }
 
-module.exports = { generateShortUUID, generateUUID };
+function generateLongUUID() {
+  return uuidv4();
+}
+
+module.exports = { generateShortUUID, generateUUID, generateLongUUID };

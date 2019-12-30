@@ -33,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
     models.User.hasMany(models.Poll, {
       onDelete: 'CASCADE',
     });
+    models.User.hasMany(models.Session, {
+      onDelete: 'CASCADE',
+    });
   };
 
   return User;
