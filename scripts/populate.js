@@ -10,7 +10,7 @@ const { error } = dotenv.config({ path: `environment.${environment}.env` });
 if (error) throw error;
 
 const bcrypt = require('bcryptjs');
-const models = require('../api/models');
+const models = require('../api/sequelize');
 
 const genres = [
   'action',
@@ -34,7 +34,8 @@ const exampleUser = {
 
 const examplePoll = {
   title: 'Movie night banter IT support crew #15',
-  description: 'This is an example poll',
+  description:
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
   userRequired: false,
   createdAt: new Date(),
   opensAt: null,
@@ -69,6 +70,12 @@ const exampleTrailers = [
   },
 ];
 
+const exampleCommunity = {
+  title: 'Banterbury',
+  description:
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+};
+
 function generateGenres() {
   return genres.map(genre => ({ value: genre }));
 }
@@ -83,6 +90,12 @@ async function script() {
   const user = await models.User.create({ ...exampleUser, password });
 
   const poll = await models.Poll.create(examplePoll);
+
+  const community = await models.Community.create(exampleCommunity);
+
+  await user.addCommunity(community.id);
+
+  await community.addPoll(poll.id);
 
   await user.addPoll(poll.id);
 

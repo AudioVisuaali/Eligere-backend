@@ -13,6 +13,7 @@ function formatPoll(poll) {
   return {
     ...poll.dataValues,
     movies: () => poll.getMovies().map(formatMovie),
+    communities: () => poll.getCommunities(formatCommunity),
   };
 }
 
@@ -30,10 +31,18 @@ function formatMovie(movie) {
   };
 }
 
+function formatCommunity(community) {
+  return {
+    ...community.dataValues,
+    polls: () => community.getPolls().map(formatPoll),
+  };
+}
+
 function formatUser(user) {
   return {
     ...user.dataValues,
     polls: () => user.getPolls({ limit: 20 }).map(formatPoll),
+    communities: () => user.getCommunities().map(formatCommunity),
   };
 }
 

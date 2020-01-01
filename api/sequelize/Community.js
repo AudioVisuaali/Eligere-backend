@@ -1,7 +1,7 @@
 const { generateShortUUID } = require('../utils/random');
 
 module.exports = (sequelize, DataTypes) => {
-  const Poll = sequelize.define('Poll', {
+  const Community = sequelize.define('Community', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -23,22 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    userRequired: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-    opensAt: DataTypes.DATE,
-    closesAt: DataTypes.DATE,
   });
 
-  Poll.associate = models => {
-    models.Poll.belongsTo(models.User, { onDelete: 'CASCADE' });
-    models.Poll.belongsTo(models.Community, { onDelete: 'CASCADE' });
-    models.Poll.hasMany(models.Movie, {
+  Community.associate = models => {
+    models.Community.belongsTo(models.User, { onDelete: 'CASCADE' });
+    models.Community.hasMany(models.Poll, {
       onDelete: 'CASCADE',
     });
   };
 
-  return Poll;
+  return Community;
 };

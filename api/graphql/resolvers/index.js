@@ -5,6 +5,7 @@ const poll = require('./poll');
 const genre = require('./genre');
 const movie = require('./movie');
 const trailer = require('./trailer');
+const session = require('./session');
 
 module.exports = {
   ...auth,
@@ -14,4 +15,5 @@ module.exports = {
   ...poll,
   ...movie,
   ...trailer,
+  ...session,
 };
