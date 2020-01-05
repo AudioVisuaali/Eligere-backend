@@ -23,7 +23,7 @@ type Movie {
   thumbnail: String!
   description: String!
   released: String
-  length: Int
+  duration: Int
   genres: [Genre!]!
   trailers: [Trailer!]!
   ratings: Ratings!
@@ -42,9 +42,9 @@ input MovieInput {
   thumbnail: String!
   description: String!
   released: String!
-  length: Int
+  duration: Int
   ratings: InputRating!
-  genres: [Int!]!
+  genres: [ID!]!
   trailers: [String!]!
 }
 
@@ -52,8 +52,8 @@ type Poll {
   identifier: ID!
   title: String!
   description: String!
-  createdAt: String!
   userRequired: Boolean!
+  createdAt: String!
   opensAt: String
   closesAt: String
   movies: [Movie!]!
@@ -88,7 +88,8 @@ type Query {
   version: String!
   movie(identifier: String!): Movie!
   trailer(identifier: String!): Trailer!
-  poll(identifier: String!): Poll
+  poll(identifier: String!): Poll!
+  community(identifier: String!): Community!
   login(username: String!, password: String!): AuthData!
   checkSession: User!
   usernameExists(displayName: String!): Boolean!
@@ -106,10 +107,12 @@ type Mutation {
     thumbnail: String
     description: String
     released: String
-    length: Int
-    genres: [Int]
+    duration: Int
+    genres: [ID!]!
     ratings: InputRating
+    trailers: [String!]!
   ): Movie!
+  createMovie(pollIdentifier: String!, movie: MovieInput!): Movie!
   updatePoll(
     identifier: String!
     title: String
@@ -118,11 +121,18 @@ type Mutation {
     closesAt: String
   ): Poll!
   updateTrailer(identifier: String!, url: String!): Trailer!
+  updateCommunity(
+    identifier: String!
+    title: String!
+    description: String!
+  ): Community!
+  createCommunity(title: String!, description: String!): Community!
   createPoll(
     title: String!
     description: String!
     userRequired: Boolean!
-    movies: [MovieInput!]!
+    opensAt: String!
+    closesAt: String!
     community: String
   ): Poll!
 

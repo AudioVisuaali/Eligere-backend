@@ -14,7 +14,7 @@ module.exports = {
     return formatMovie(movie);
   },
 
-  create: async (args, req) => {
+  createMovie: async (args, req) => {
     const { pollIdentifier, movie: movieJSON } = args;
 
     if (!req.isAuth) {
@@ -22,7 +22,7 @@ module.exports = {
     }
 
     const poll = await models.Poll.findOne({
-      where: { pollIdentifier },
+      where: { identifier: pollIdentifier },
     });
 
     if (!poll) {
@@ -58,7 +58,7 @@ module.exports = {
       thumbnail,
       description,
       release,
-      length,
+      duration,
       genres,
       ratings,
     } = args;
@@ -66,16 +66,17 @@ module.exports = {
     if (!req.isAuth) {
       throw new Error('Invalid session');
     }
-
     const movie = await models.Movie.findOne({
       where: { identifier },
     });
 
+    console.log(identifier);
     if (!movie) {
       throw new Error('Movie does not exist');
     }
 
-    const user = await movie.getPoll().getUser();
+    const poll = await movie.getPoll();
+    const user = await poll.getUser();
 
     if (user.identifier !== req.userIdentifier) {
       throw new Error('No permissions to poll');
@@ -87,7 +88,7 @@ module.exports = {
       thumbnail,
       description,
       release,
-      length,
+      duration,
     };
 
     // Turning ratings object to properties
@@ -127,7 +128,8 @@ module.exports = {
       throw new Error('Trailer does not exist');
     }
 
-    const user = await movie.getPoll().getUser();
+    const poll = await movie.getPoll();
+    const user = await poll.getUser();
 
     if (user.identifier !== req.userIdentifier) {
       throw new Error('No permissions to poll');

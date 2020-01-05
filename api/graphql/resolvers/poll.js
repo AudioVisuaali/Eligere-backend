@@ -1,4 +1,4 @@
-const { movieFromJSON, formatPoll, getPlatform } = require('./formatters');
+const { formatPoll } = require('./formatters');
 const models = require('../../sequelize');
 
 module.exports = {
@@ -15,7 +15,14 @@ module.exports = {
   },
 
   createPoll: async (args, req) => {
-    const { title, description, userRequired, movies } = args;
+    const {
+      title,
+      description,
+      userRequired,
+      opensAt,
+      closesAt,
+      community,
+    } = args;
 
     if (!req.isAuth) {
       throw new Error('Invalid session');
@@ -29,26 +36,12 @@ module.exports = {
       title,
       description,
       createdAt: new Date(),
+      opensAt: new Date(opensAt),
+      closesAt: new Date(closesAt),
       userRequired,
     });
 
-    for (const movieJson of movies) {
-      const movie = await models.Movie.create(movieFromJSON(movieJson));
-
-      const genres = await models.Genre.findAll({
-        where: { id: movieJson.genres },
-      });
-      await movie.addGenres(genres);
-
-      const trailers = await models.Trailer.bulkCreate(
-        movieJson.trailers.map(getPlatform)
-      );
-      await movie.addTrailers(trailers);
-
-      await poll.addMovie(movie.id);
-    }
-
-    poll.addUser(user);
+    user.addPoll(poll.id);
 
     return formatPoll(poll);
   },

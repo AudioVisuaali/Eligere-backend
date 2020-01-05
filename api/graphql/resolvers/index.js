@@ -6,6 +6,7 @@ const genre = require('./genre');
 const movie = require('./movie');
 const trailer = require('./trailer');
 const session = require('./session');
+const community = require('./community');
 
 module.exports = {
   ...auth,
@@ -16,4 +17,5 @@ module.exports = {
   ...movie,
   ...trailer,
   ...session,
+  ...community,
 };

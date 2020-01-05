@@ -41,8 +41,12 @@ function formatCommunity(community) {
 function formatUser(user) {
   return {
     ...user.dataValues,
-    polls: () => user.getPolls({ limit: 20 }).map(formatPoll),
-    communities: () => user.getCommunities().map(formatCommunity),
+    polls: () =>
+      user.getPolls({ order: [['createdAt', 'DESC']] }).map(formatPoll),
+    communities: () =>
+      user
+        .getCommunities({ order: [['updatedAt', 'DESC']] })
+        .map(formatCommunity),
   };
 }
 
@@ -81,5 +85,6 @@ module.exports = {
   formatTrailer,
   formatGenre,
   formatUser,
+  formatCommunity,
   getPlatform,
 };

@@ -49,7 +49,7 @@ const exampleMovie = {
   description:
     'Avengers: Endgame is a 2019 American superhero film based on the Marvel Comics superhero team the Avengers, produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures. ',
   released: new Date(),
-  length: 181,
+  duration: 181,
   imdb: 85,
   rottenTomatoes: 94,
   metacritic: 78,
@@ -67,6 +67,11 @@ const exampleTrailers = [
     platform: 'youtube',
     url: 'https://www.youtube.com/watch?v=hA6hldpSTF8',
     slug: 'hA6hldpSTF8',
+  },
+  {
+    platform: 'youtube',
+    url: 'https://www.youtube.com/watch?v=0jNvJU52LvU',
+    slug: '0jNvJU52LvU',
   },
 ];
 
@@ -101,11 +106,19 @@ async function script() {
 
   const movie = await models.Movie.create(exampleMovie);
 
+  const movie2 = await models.Movie.create(exampleMovie);
+
   await poll.addMovie(movie.id);
+
+  await poll.addMovie(movie2.id);
 
   const trailers = await models.Trailer.bulkCreate(exampleTrailers);
 
+  const trailers2 = await models.Trailer.bulkCreate(exampleTrailers);
+
   await movie.addTrailers(trailers);
+
+  await movie2.addTrailers(trailers2);
 
   await movie.addGenres([genres[0], genres[2], genres[4]]);
 
