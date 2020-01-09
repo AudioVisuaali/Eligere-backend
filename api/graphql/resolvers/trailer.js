@@ -1,4 +1,5 @@
-const { formatTrailer, getPlatform } = require('./formatters');
+const { formatTrailer } = require('./formatters');
+const { getPlatform } = require('../../utils/video');
 const models = require('../../sequelize');
 
 module.exports = {
@@ -36,7 +37,7 @@ module.exports = {
       throw new Error('No permissions to poll');
     }
 
-    const trailerJSON = getPlatform(url);
+    const trailerJSON = await getPlatform(url);
 
     if (!trailerJSON) {
       throw new Error('Invalid url');
@@ -73,10 +74,10 @@ module.exports = {
       throw new Error('No permissions to poll');
     }
 
-    const newVideo = getPlatform(url);
+    const trailerJSON = await getPlatform(url);
 
-    if (newVideo) {
-      trailer.update(newVideo);
+    if (trailerJSON) {
+      trailer.update(trailerJSON);
     }
 
     return formatTrailer(trailer);

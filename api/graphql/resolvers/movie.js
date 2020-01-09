@@ -1,4 +1,5 @@
-const { formatMovie, getPlatform, movieFromJSON } = require('./formatters');
+const { formatMovie, movieFromJSON } = require('./formatters');
+const { getPlatform } = require('../../utils/video');
 const models = require('../../sequelize');
 
 module.exports = {
@@ -41,9 +42,13 @@ module.exports = {
     });
     await movie.addGenres(genres);
 
-    const trailersJSON = movieJSON.trailers
-      .map(getPlatform)
-      .filter(trailer => trailer);
+    const trailersJSON = [];
+    for (let i = 0; i < movieJSON.trailers.length; i++) {
+      const asd = await getPlatform(movieJSON.trailers[i]);
+      if (asd) {
+        trailersJSON.push(asd);
+      }
+    }
 
     const trailers = await models.Trailer.bulkCreate(trailersJSON);
 

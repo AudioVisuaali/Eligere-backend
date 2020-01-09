@@ -3,6 +3,7 @@ type Trailer {
   platform: String!
   url: String!
   slug: String!
+  thumbnailURL: String!
 }
 
 type Genre {
