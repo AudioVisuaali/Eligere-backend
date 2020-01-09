@@ -10,43 +10,66 @@ function movieFromJSON(movie) {
 }
 
 function formatPoll(poll) {
+  const { createdAt, opensAt, closesAt, ...rest } = poll.dataValues;
   return {
-    ...poll.dataValues,
+    ...rest,
     movies: () => poll.getMovies().map(formatMovie),
     communities: () => poll.getCommunities(formatCommunity),
+    opensAt: opensAt ? new Date(opensAt).toString() : null,
+    closesAt: closesAt ? new Date(closesAt).toString() : null,
+    createdAt: createdAt ? new Date(createdAt).toString() : null,
   };
 }
 
 function formatMovie(movie) {
+  const {
+    released,
+    createdAt,
+    imdb,
+    rottenTomatoes,
+    metacritic,
+    googleUsers,
+    ...rest
+  } = movie.dataValues;
   return {
-    ...movie.dataValues,
+    ...rest,
     ratings: {
-      imdb: movie.imdb,
-      rottenTomatoes: movie.rottenTomatoes,
-      metacritic: movie.metacritic,
-      googleUsers: movie.googleUsers,
+      imdb,
+      rottenTomatoes,
+      metacritic,
+      googleUsers,
     },
     genres: () => movie.getGenres().map(formatGenre),
     trailers: () => movie.getTrailers().map(formatTrailer),
+    released: released ? new Date(released).toString() : null,
+    createdAt: createdAt ? new Date(createdAt).toString() : null,
   };
 }
 
 function formatCommunity(community) {
+  const { createdAt, ...rest } = community.dataValues;
   return {
-    ...community.dataValues,
+    ...rest,
     polls: () => community.getPolls().map(formatPoll),
+    createdAt: createdAt ? new Date(createdAt).toString() : null,
   };
 }
 
 function formatUser(user) {
+  const { createdAt, ...rest } = user.dataValues;
+
+  const polls = () =>
+    user.getPolls({ order: [['createdAt', 'DESC']] }).map(formatPoll);
+  const communities = () =>
+    user
+      .getCommunities({ order: [['updatedAt', 'DESC']] })
+      .map(formatCommunity);
+
   return {
-    ...user.dataValues,
-    polls: () =>
-      user.getPolls({ order: [['createdAt', 'DESC']] }).map(formatPoll),
-    communities: () =>
-      user
-        .getCommunities({ order: [['updatedAt', 'DESC']] })
-        .map(formatCommunity),
+    ...rest,
+    polls,
+    communities,
+    createdAt: createdAt ? new Date(createdAt).toString() : null,
   };
 }
 

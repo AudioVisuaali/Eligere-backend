@@ -41,9 +41,12 @@ module.exports = {
     });
     await movie.addGenres(genres);
 
-    const trailers = await models.Trailer.bulkCreate(
-      movieJSON.trailers.map(getPlatform)
-    );
+    const trailersJSON = movieJSON.trailers
+      .map(getPlatform)
+      .filter(trailer => trailer);
+
+    const trailers = await models.Trailer.bulkCreate(trailersJSON);
+
     await movie.addTrailers(trailers);
 
     await poll.addMovie(movie.id);
