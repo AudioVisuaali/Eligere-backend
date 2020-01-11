@@ -22,6 +22,9 @@ module.exports = {
       opensAt,
       closesAt,
       community,
+      totalVotes,
+      allowComments,
+      allowMovieSuggestions,
     } = args;
 
     if (!req.isAuth) {
@@ -39,6 +42,9 @@ module.exports = {
       opensAt: new Date(opensAt),
       closesAt: new Date(closesAt),
       userRequired,
+      totalVotes,
+      allowComments,
+      allowMovieSuggestions,
     });
 
     user.addPoll(poll.id);

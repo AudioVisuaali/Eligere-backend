@@ -40,6 +40,9 @@ const examplePoll = {
   createdAt: new Date(),
   opensAt: null,
   closesAt: null,
+  totalVotes: 1,
+  allowComments: false,
+  allowMovieSuggestions: false,
 };
 
 const exampleMovie = {
