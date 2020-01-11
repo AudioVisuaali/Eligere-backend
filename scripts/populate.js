@@ -63,18 +63,21 @@ const exampleTrailers = [
     url: 'https://www.youtube.com/watch?v=TcMBFSGVi1c',
     slug: 'TcMBFSGVi1c',
     thumbnailURL: 'https://i.ytimg.com/vi/qku_cEgr39A/hqdefault.jpg',
+    title: 'Marvel Studios’ Avengers: Endgame | “To the End”',
   },
   {
     platform: 'youtube',
     url: 'https://www.youtube.com/watch?v=hA6hldpSTF8',
     slug: 'hA6hldpSTF8',
     thumbnailURL: 'https://i.ytimg.com/vi/qku_cEgr39A/hqdefault.jpg',
+    title: 'Marvel Studios’ Avengers: Endgame | “To the End”',
   },
   {
     platform: 'youtube',
     url: 'https://www.youtube.com/watch?v=0jNvJU52LvU',
     slug: '0jNvJU52LvU',
     thumbnailURL: 'https://i.ytimg.com/vi/qku_cEgr39A/hqdefault.jpg',
+    title: 'Marvel Studios’ Avengers: Endgame | “To the End”',
   },
 ];
 

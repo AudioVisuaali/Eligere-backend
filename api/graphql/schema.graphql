@@ -4,6 +4,7 @@ type Trailer {
   url: String!
   slug: String!
   thumbnailURL: String!
+  title: String!
 }
 
 type Genre {

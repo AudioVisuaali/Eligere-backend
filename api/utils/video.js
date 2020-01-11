@@ -23,6 +23,7 @@ async function getPlatform(url) {
       url,
       slug,
       thumbnailURL: video.data.thumbnail_url,
+      title: video.data.title,
     };
   } catch (e) {
     return;
