@@ -131,6 +131,7 @@ type Mutation {
     opensAt: String
     closesAt: String
     totalVotes: Int!
+    userRequired: Boolean!
     allowComments: Boolean!
     allowMovieSuggestions: Boolean!
   ): Poll!
