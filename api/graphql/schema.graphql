@@ -1,3 +1,11 @@
+type Imdb {
+  id: String!
+  title: String!
+  year: String
+  image: String!
+  stars: String
+}
+
 type Trailer {
   identifier: ID!
   platform: String!
@@ -98,6 +106,7 @@ type Query {
   login(username: String!, password: String!): AuthData!
   checkSession: User!
   usernameExists(displayName: String!): Boolean!
+  imdb(query: String!): [Imdb!]!
 }
 
 type Mutation {
