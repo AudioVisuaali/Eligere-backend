@@ -48,9 +48,6 @@ input MovieInput {
   ratings: InputRating!
   genres: [ID!]!
   trailers: [String!]!
-  totalVotes: Int!
-  allowComments: Boolean!
-  allowMovieSuggestions: Boolean!
 }
 
 type Poll {
