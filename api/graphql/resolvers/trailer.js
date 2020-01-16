@@ -4,7 +4,7 @@ const models = require('../../sequelize');
 
 module.exports = {
   trailer: async ({ identifier }) => {
-    const trailer = await models.Movie.findOne({
+    const trailer = await models.Trailer.findOne({
       where: { identifier },
     });
 
@@ -65,10 +65,9 @@ module.exports = {
       throw new Error('Trailer does not exist');
     }
 
-    const user = await trailer
-      .getMovie()
-      .getPoll()
-      .getUser();
+    const movie = await trailer.getMovie();
+    const poll = await movie.getPoll();
+    const user = await poll.getUser();
 
     if (user.identifier !== req.userIdentifier) {
       throw new Error('No permissions to poll');

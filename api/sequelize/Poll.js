@@ -28,6 +28,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: false,
     },
+    totalVotes: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    allowComments: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    allowMovieSuggestions: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
     opensAt: DataTypes.DATE,
     closesAt: DataTypes.DATE,
   });

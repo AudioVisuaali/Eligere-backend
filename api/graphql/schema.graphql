@@ -1,3 +1,11 @@
+type Imdb {
+  id: String!
+  title: String!
+  year: String
+  image: String!
+  stars: String
+}
+
 type Trailer {
   identifier: ID!
   platform: String!
@@ -60,6 +68,9 @@ type Poll {
   closesAt: String
   movies: [Movie!]!
   community: Community
+  totalVotes: Int!
+  allowComments: Boolean!
+  allowMovieSuggestions: Boolean!
 }
 
 type Community {
@@ -95,6 +106,7 @@ type Query {
   login(username: String!, password: String!): AuthData!
   checkSession: User!
   usernameExists(displayName: String!): Boolean!
+  imdb(query: String!): [Imdb!]!
 }
 
 type Mutation {
@@ -113,6 +125,9 @@ type Mutation {
     genres: [ID!]!
     ratings: InputRating
     trailers: [String!]!
+    totalVotes: Int!
+    allowComments: Boolean!
+    allowMovieSuggestions: Boolean!
   ): Movie!
   createMovie(pollIdentifier: String!, movie: MovieInput!): Movie!
   updatePoll(
@@ -121,6 +136,10 @@ type Mutation {
     description: String
     opensAt: String
     closesAt: String
+    totalVotes: Int!
+    userRequired: Boolean!
+    allowComments: Boolean!
+    allowMovieSuggestions: Boolean!
   ): Poll!
   updateTrailer(identifier: String!, url: String!): Trailer!
   updateCommunity(
@@ -136,6 +155,9 @@ type Mutation {
     opensAt: String!
     closesAt: String!
     community: String
+    totalVotes: Int!
+    allowComments: Boolean!
+    allowMovieSuggestions: Boolean!
   ): Poll!
 
   deleteTrailer(identifier: String!): Boolean
