@@ -23,7 +23,6 @@ function formatPoll(poll) {
 
 function formatMovie(movie) {
   const {
-    released,
     createdAt,
     imdb,
     rottenTomatoes,
@@ -41,7 +40,6 @@ function formatMovie(movie) {
     },
     genres: () => movie.getGenres().map(formatGenre),
     trailers: () => movie.getTrailers().map(formatTrailer),
-    released: released ? new Date(released).toString() : null,
     createdAt: createdAt ? new Date(createdAt).toString() : null,
   };
 }

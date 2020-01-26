@@ -65,7 +65,7 @@ module.exports = {
       title,
       thumbnail,
       description,
-      release,
+      released,
       duration,
       genres,
       ratings,
@@ -95,7 +95,7 @@ module.exports = {
       title,
       thumbnail,
       description,
-      release,
+      released,
       duration,
     };
 

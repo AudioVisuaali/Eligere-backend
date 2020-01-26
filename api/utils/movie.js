@@ -24,7 +24,7 @@ async function getImdb(query) {
       id: movie.id,
       title: movie.l,
       year: movie.y,
-      image: movie.i.imageUrl,
+      image: movie.i.imageUrl.replace('.jpg', 'UX75_CR0,1,75,111_.jpg'),
       stars: movie.s,
     }));
   } catch (e) {

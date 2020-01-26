@@ -32,7 +32,7 @@ type Movie {
   title: String!
   thumbnail: String!
   description: String!
-  released: String
+  released: Int
   duration: Int
   genres: [Genre!]!
   trailers: [Trailer!]!
@@ -51,7 +51,7 @@ input MovieInput {
   title: String!
   thumbnail: String!
   description: String!
-  released: String!
+  released: Int!
   duration: Int
   ratings: InputRating!
   genres: [ID!]!
@@ -106,7 +106,7 @@ type Query {
   login(username: String!, password: String!): AuthData!
   checkSession: User!
   usernameExists(displayName: String!): Boolean!
-  imdb(query: String!): [Imdb!]!
+  imdb(query: String!, max: Int): [Imdb!]!
 }
 
 type Mutation {
@@ -120,14 +120,10 @@ type Mutation {
     title: String
     thumbnail: String
     description: String
-    released: String
+    released: Int
     duration: Int
     genres: [ID!]!
     ratings: InputRating
-    trailers: [String!]!
-    totalVotes: Int!
-    allowComments: Boolean!
-    allowMovieSuggestions: Boolean!
   ): Movie!
   createMovie(pollIdentifier: String!, movie: MovieInput!): Movie!
   updatePoll(
