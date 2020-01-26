@@ -65,10 +65,8 @@ async function getImdbMovie(id) {
       released: parseInt(released, 10),
       duration: parseInt(duration.split(' ')[0], 10),
       genres,
-      ratings: {
-        imdb: parseFloat(imdb, 10) * 10,
-        metacritic: parseInt(metacritic, 10),
-      },
+      imdb: parseFloat(imdb, 10) * 10,
+      metacritic: parseInt(metacritic, 10),
     };
   } catch (e) {
     return;
