@@ -2,7 +2,7 @@ type Imdb {
   id: String!
   title: String!
   year: String
-  image: String!
+  image: String
   stars: String
 }
 
@@ -126,6 +126,7 @@ type Mutation {
     ratings: InputRating
   ): Movie!
   createMovie(pollIdentifier: String!, movie: MovieInput!): Movie!
+  createMovieImdb(pollIdentifier: String!, id: ID!): Movie!
   updatePoll(
     identifier: String!
     title: String

@@ -1,5 +1,5 @@
 const { formatMovie, movieFromJSON } = require('./formatters');
-const { getPlatform } = require('../../utils/video');
+const { getImdbMovie } = require('../../utils/movie');
 const models = require('../../sequelize');
 
 module.exports = {
@@ -42,17 +42,43 @@ module.exports = {
     });
     await movie.addGenres(genres);
 
-    const trailersJSON = [];
-    for (let i = 0; i < movieJSON.trailers.length; i++) {
-      const asd = await getPlatform(movieJSON.trailers[i]);
-      if (asd) {
-        trailersJSON.push(asd);
-      }
+    await poll.addMovie(movie.id);
+
+    return formatMovie(movie);
+  },
+
+  createMovieImdb: async (args, req) => {
+    const { pollIdentifier, id } = args;
+
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
     }
 
-    const trailers = await models.Trailer.bulkCreate(trailersJSON);
+    const poll = await models.Poll.findOne({
+      where: { identifier: pollIdentifier },
+    });
 
-    await movie.addTrailers(trailers);
+    if (!poll) {
+      throw new Error('Movie does not exist');
+    }
+
+    const user = await poll.getUser();
+    if (user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to poll');
+    }
+
+    const imdbMovieJson = await getImdbMovie(id);
+
+    if (!imdbMovieJson) {
+      throw new Error('Invalid imdb movie');
+    }
+
+    const movie = await models.Movie.create(imdbMovieJson);
+
+    // const genres = await models.Genre.findAll({
+    //   where: { id: movieJSON.genres },
+    // });
+    // await movie.addGenres(genres);
 
     await poll.addMovie(movie.id);
 

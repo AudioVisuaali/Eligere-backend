@@ -13,7 +13,12 @@ function formatPoll(poll) {
   const { createdAt, opensAt, closesAt, ...rest } = poll.dataValues;
   return {
     ...rest,
-    movies: () => poll.getMovies().map(formatMovie),
+    movies: () =>
+      poll
+        .getMovies({
+          order: [['updatedAt', 'DESC']],
+        })
+        .map(formatMovie),
     communities: () => poll.getCommunities(formatCommunity),
     opensAt: opensAt ? new Date(opensAt).toString() : null,
     closesAt: closesAt ? new Date(closesAt).toString() : null,
