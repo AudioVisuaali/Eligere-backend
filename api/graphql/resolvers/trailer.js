@@ -24,14 +24,15 @@ module.exports = {
     }
 
     const movie = await models.Movie.findOne({
-      where: { movieIdentifier },
+      where: { identifier: movieIdentifier },
     });
 
     if (!movie) {
       throw new Error('Movie does not exist');
     }
 
-    const user = await movie.getPoll().getUser();
+    const poll = await movie.getPoll();
+    const user = await poll.getUser();
 
     if (user.identifier !== req.userIdentifier) {
       throw new Error('No permissions to poll');

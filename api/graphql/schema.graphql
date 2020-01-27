@@ -127,6 +127,7 @@ type Mutation {
   ): Movie!
   createMovie(pollIdentifier: String!, movie: MovieInput!): Movie!
   createMovieImdb(pollIdentifier: String!, id: ID!): Movie!
+  createTrailer(movieIdentifier: String!, url: String!): Trailer!
   updatePoll(
     identifier: String!
     title: String
