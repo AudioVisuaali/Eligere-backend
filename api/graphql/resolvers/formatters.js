@@ -43,6 +43,7 @@ function formatMovie(movie) {
       metacritic,
       googleUsers,
     },
+    poll: () => movie.getPoll().then(formatPoll),
     genres: () => movie.getGenres().map(formatGenre),
     trailers: () => movie.getTrailers().map(formatTrailer),
     createdAt: createdAt ? new Date(createdAt).toString() : null,

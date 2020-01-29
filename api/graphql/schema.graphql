@@ -38,6 +38,7 @@ type Movie {
   trailers: [Trailer!]!
   ratings: Ratings!
   createdAt: String!
+  poll: Poll!
 }
 
 input InputRating {
