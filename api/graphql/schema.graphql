@@ -73,6 +73,10 @@ type Poll {
   allowMovieSuggestions: Boolean!
 }
 
+input CommunityCreate {
+  identifier: ID!
+}
+
 type Community {
   identifier: ID!
   title: String!
@@ -138,6 +142,7 @@ type Mutation {
     userRequired: Boolean!
     allowComments: Boolean!
     allowMovieSuggestions: Boolean!
+    community: CommunityCreate
   ): Poll!
   updateTrailer(identifier: String!, url: String!): Trailer!
   updateCommunity(
@@ -150,9 +155,9 @@ type Mutation {
     title: String!
     description: String!
     userRequired: Boolean!
-    opensAt: String!
-    closesAt: String!
-    community: String
+    opensAt: String
+    closesAt: String
+    community: CommunityCreate
     totalVotes: Int!
     allowComments: Boolean!
     allowMovieSuggestions: Boolean!

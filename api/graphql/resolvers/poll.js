@@ -49,11 +49,18 @@ module.exports = {
 
     user.addPoll(poll.id);
 
+    if (community) {
+      const communityDB = await models.Community.findOne({
+        where: { identifier: community.identifier },
+      });
+      await poll.setCommunity(communityDB.id);
+    }
+
     return formatPoll(poll);
   },
 
   updatePoll: async (args, req) => {
-    const { identifier, ...rest } = args;
+    const { identifier, community, ...rest } = args;
 
     if (!req.isAuth) {
       throw new Error('Invalid session');
@@ -74,6 +81,15 @@ module.exports = {
     }
 
     await poll.update(rest);
+
+    if (community) {
+      const communityDB = await models.Community.findOne({
+        where: { identifier: community.identifier },
+      });
+      await poll.setCommunity(communityDB.id);
+    } else {
+      await poll.setCommunity(null);
+    }
 
     return formatPoll(poll);
   },

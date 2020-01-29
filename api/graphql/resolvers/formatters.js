@@ -19,7 +19,7 @@ function formatPoll(poll) {
           order: [['updatedAt', 'DESC']],
         })
         .map(formatMovie),
-    communities: () => poll.getCommunities(formatCommunity),
+    community: () => poll.getCommunity(formatCommunity),
     opensAt: opensAt ? new Date(opensAt).toString() : null,
     closesAt: closesAt ? new Date(closesAt).toString() : null,
     createdAt: createdAt ? new Date(createdAt).toString() : null,
