@@ -104,7 +104,6 @@ module.exports = {
       where: { identifier },
     });
 
-    console.log(identifier);
     if (!movie) {
       throw new Error('Movie does not exist');
     }

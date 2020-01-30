@@ -88,7 +88,6 @@ async function getImdb(query) {
       };
     });
   } catch (e) {
-    console.log(e);
     return;
   }
 }
