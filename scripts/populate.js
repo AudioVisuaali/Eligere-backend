@@ -115,19 +115,11 @@ async function script() {
 
   const movie = await models.Movie.create(exampleMovie);
 
-  const movie2 = await models.Movie.create(exampleMovie);
-
   await poll.addMovie(movie.id);
-
-  await poll.addMovie(movie2.id);
 
   const trailers = await models.Trailer.bulkCreate(exampleTrailers);
 
-  const trailers2 = await models.Trailer.bulkCreate(exampleTrailers);
-
   await movie.addTrailers(trailers);
-
-  await movie2.addTrailers(trailers2);
 
   await movie.addGenres([genres[0], genres[2], genres[4]]);
 
