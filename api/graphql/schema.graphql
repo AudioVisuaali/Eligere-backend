@@ -107,7 +107,9 @@ type Query {
   movie(identifier: String!): Movie!
   trailer(identifier: String!): Trailer!
   poll(identifier: String!): Poll!
+  polls: [Poll!]!
   community(identifier: String!): Community!
+  communities: [Community!]!
   login(username: String!, password: String!): AuthData!
   checkSession: User!
   usernameExists(displayName: String!): Boolean!

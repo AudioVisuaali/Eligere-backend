@@ -14,6 +14,24 @@ module.exports = {
     return formatPoll(poll);
   },
 
+  polls: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
+    const user = await models.User.findOne({
+      where: { identifier: req.userIdentifier },
+    });
+
+    const polls = await user.getPolls();
+
+    if (!polls) {
+      throw new Error('Poll does not exist');
+    }
+
+    return polls.map(formatPoll);
+  },
+
   createPoll: async (args, req) => {
     const {
       title,

@@ -14,6 +14,24 @@ module.exports = {
     return formatCommunity(community);
   },
 
+  communities: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error('Invalid session');
+    }
+
+    const user = await models.User.findOne({
+      where: { identifier: req.userIdentifier },
+    });
+
+    const communities = await user.getCommunities();
+
+    if (!communities) {
+      throw new Error('Poll does not exist');
+    }
+
+    return communities.map(formatCommunity);
+  },
+
   createCommunity: async (args, req) => {
     const { title, description } = args;
 
