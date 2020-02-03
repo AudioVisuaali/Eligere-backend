@@ -1,15 +1,24 @@
 const { formatMovie, movieFromJSON } = require('./formatters');
 const { getImdbMovie } = require('../../utils/movie');
 const models = require('../../sequelize');
+const { unAuthenticated } = require('../../utils/responses');
 
 module.exports = {
-  movie: async ({ identifier }) => {
+  movie: async (args, req) => {
+    const { identifier, requestModify } = args;
     const movie = await models.Movie.findOne({
       where: { identifier },
     });
 
     if (!movie) {
       throw new Error('Movie does not exist');
+    }
+
+    const poll = await movie.getPoll();
+    const user = await poll.getUser();
+
+    if (requestModify && user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to movie');
     }
 
     return formatMovie(movie);
@@ -19,7 +28,7 @@ module.exports = {
     const { pollIdentifier, movie: movieJSON } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const poll = await models.Poll.findOne({
@@ -32,7 +41,7 @@ module.exports = {
 
     const user = await poll.getUser();
     if (user.identifier !== req.userIdentifier) {
-      throw new Error('No permissions to poll');
+      throw new Error('No permissions to movie');
     }
 
     const movie = await models.Movie.create(movieFromJSON(movieJSON));
@@ -51,7 +60,7 @@ module.exports = {
     const { pollIdentifier, id } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const poll = await models.Poll.findOne({
@@ -64,7 +73,7 @@ module.exports = {
 
     const user = await poll.getUser();
     if (user.identifier !== req.userIdentifier) {
-      throw new Error('No permissions to poll');
+      throw new Error('No permissions to movie');
     }
 
     const imdbMovieJson = await getImdbMovie(id);
@@ -98,12 +107,12 @@ module.exports = {
     } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
+
     const movie = await models.Movie.findOne({
       where: { identifier },
     });
-
     if (!movie) {
       throw new Error('Movie does not exist');
     }
@@ -112,7 +121,7 @@ module.exports = {
     const user = await poll.getUser();
 
     if (user.identifier !== req.userIdentifier) {
-      throw new Error('No permissions to poll');
+      throw new Error('No permissions to movie');
     }
 
     // Basic properties
@@ -150,7 +159,7 @@ module.exports = {
     const { identifier } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const movie = await models.Movie.findOne({
@@ -165,7 +174,7 @@ module.exports = {
     const user = await poll.getUser();
 
     if (user.identifier !== req.userIdentifier) {
-      throw new Error('No permissions to poll');
+      throw new Error('No permissions to movie');
     }
 
     movie.destroy();

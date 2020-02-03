@@ -1,8 +1,10 @@
 const { formatCommunity } = require('./formatters');
 const models = require('../../sequelize');
+const { unAuthenticated } = require('../../utils/responses');
 
 module.exports = {
-  community: async ({ identifier }) => {
+  community: async (args, req) => {
+    const { identifier, requestModify } = args;
     const community = await models.Community.findOne({
       where: { identifier },
     });
@@ -11,12 +13,18 @@ module.exports = {
       throw new Error('Movie does not exist');
     }
 
+    const user = await community.getUser();
+
+    if (requestModify && user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to poll');
+    }
+
     return formatCommunity(community);
   },
 
   communities: async (args, req) => {
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const user = await models.User.findOne({
@@ -36,7 +44,7 @@ module.exports = {
     const { title, description } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const user = await models.User.findOne({
@@ -54,7 +62,7 @@ module.exports = {
     const { identifier, title, description } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const community = await models.Community.findOne({

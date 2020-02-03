@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const models = require('../../sequelize');
 const { passwordCheck } = require('../../utils/checks');
+const { unAuthenticated } = require('../../utils/responses');
 
 module.exports = {
   usernameExists: async ({ username }) => {
@@ -17,7 +18,7 @@ module.exports = {
 
   updateDisplayName: async ({ displayName }, req) => {
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const user = await models.User.findOne({
@@ -31,7 +32,7 @@ module.exports = {
 
   updatePassword: async ({ oldPassword, newPassword }, req) => {
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const user = await models.User.findOne({

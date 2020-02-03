@@ -1,8 +1,10 @@
 const { formatPoll } = require('./formatters');
 const models = require('../../sequelize');
+const { unAuthenticated } = require('../../utils/responses');
 
 module.exports = {
-  poll: async ({ identifier }) => {
+  poll: async (args, req) => {
+    const { identifier, requestModify } = args;
     const poll = await models.Poll.findOne({
       where: { identifier: identifier },
     });
@@ -11,12 +13,18 @@ module.exports = {
       throw new Error('Poll does not exist');
     }
 
+    const user = await poll.getUser();
+
+    if (requestModify && user.identifier !== req.userIdentifier) {
+      throw new Error('No permissions to poll');
+    }
+
     return formatPoll(poll);
   },
 
   polls: async (args, req) => {
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const user = await models.User.findOne({
@@ -46,7 +54,7 @@ module.exports = {
     } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const user = await models.User.findOne({
@@ -81,7 +89,7 @@ module.exports = {
     const { identifier, community, ...rest } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const poll = await models.Poll.findOne({
@@ -116,7 +124,7 @@ module.exports = {
     const { identifier } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const poll = await models.Poll.findOne({

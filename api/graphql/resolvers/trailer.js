@@ -1,6 +1,7 @@
 const { formatTrailer } = require('./formatters');
 const { getPlatform } = require('../../utils/video');
 const models = require('../../sequelize');
+const { unAuthenticated } = require('../../utils/responses');
 
 module.exports = {
   trailer: async ({ identifier }) => {
@@ -20,7 +21,7 @@ module.exports = {
     const { movieIdentifier, url } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const movie = await models.Movie.findOne({
@@ -55,7 +56,7 @@ module.exports = {
     const { identifier, url } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const trailer = await models.Trailer.findOne({
@@ -87,7 +88,7 @@ module.exports = {
     const { identifier } = args;
 
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return unAuthenticated();
     }
 
     const trailer = await models.Trailer.findOne({

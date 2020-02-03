@@ -4,7 +4,7 @@ const models = require('../../sequelize');
 module.exports = {
   checkSession: async (args, req) => {
     if (!req.isAuth) {
-      throw new Error('Invalid session');
+      return null;
     }
 
     const user = await models.User.findOne({
@@ -12,7 +12,7 @@ module.exports = {
     });
 
     if (!user) {
-      throw new Error('Invalid session');
+      return null;
     }
 
     return formatUser(user);
