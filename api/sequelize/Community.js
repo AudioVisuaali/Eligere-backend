@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     identifier: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(500),
       defaultValue: generateShortUUID,
     },
     title: {
