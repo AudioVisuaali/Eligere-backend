@@ -26,33 +26,33 @@ async function getImdbMovie(id) {
     });
 
     const dom = new JSDOM(data);
-    const imdb = dom.window.document.getElementsByClassName('ratingValue')[0]
-      .firstElementChild.firstElementChild.textContent;
-    const metacritic = dom.window.document.getElementsByClassName(
-      'metacriticScore'
-    )[0].firstElementChild.textContent;
+    const { document } = dom.window;
+    const imdbEl = document.getElementsByClassName('ratingValue')[0];
+    const imdb =
+      imdbEl && imdbEl.firstElementChild.firstElementChild.textContent;
 
-    const titleElement = dom.window.document.getElementsByClassName(
-      'title_wrapper'
-    )[0];
+    const metacriticEl = document.getElementsByClassName('metacriticScore')[0];
+    const metacritic =
+      metacriticEl && metacriticEl.firstElementChild.textContent;
+
+    const titleElement = document.getElementsByClassName('title_wrapper')[0];
     const title = titleElement.firstElementChild.textContent;
-    const released =
-      titleElement.firstElementChild.children['titleYear'].children[0]
-        .textContent;
+    const releasedEl = titleElement.firstElementChild.children['titleYear'];
+    const released = releasedEl && releasedEl.children[0].textContent;
 
-    const description = dom.window.document.getElementsByClassName(
-      'summary_text'
-    )[0].textContent;
-
-    const thumbnail = dom.window.document.getElementsByClassName('poster')[0]
-      .firstElementChild.firstElementChild.src;
-
-    const duration = dom.window.document.getElementsByTagName('TIME')[1]
+    const description = document.getElementsByClassName('summary_text')[0]
       .textContent;
 
-    const genresNodes = dom.window.document
-      .getElementById('titleStoryLine')
-      .childNodes[19].getElementsByTagName('A');
+    const thumbnail = document.getElementsByClassName('poster')[0]
+      .firstElementChild.firstElementChild.src;
+
+    const durationEl = document.getElementsByTagName('TIME')[1];
+    const duration = durationEl && durationEl.textContent;
+
+    const genresNodesEl = document.getElementById('titleStoryLine')
+      .childNodes[19];
+    const genresNodes =
+      (genresNodesEl && genresNodesEl.getElementsByTagName('A')) || [];
     const genres = [];
     for (let genre of genresNodes) {
       genres.push(genre.textContent.toLowerCase().trim());
@@ -62,13 +62,14 @@ async function getImdbMovie(id) {
       title: title.trim(),
       description: description.trim(),
       thumbnail,
-      released: parseInt(released, 10),
-      duration: parseInt(duration.split(' ')[0], 10),
+      released: released && parseInt(released, 10),
+      duration: duration && parseInt(duration.split(' ')[0], 10),
       genres,
-      imdb: parseFloat(imdb, 10) * 10,
-      metacritic: parseInt(metacritic, 10),
+      imdb: imdb && parseFloat(imdb, 10) * 10,
+      metacritic: metacritic && parseInt(metacritic, 10),
     };
   } catch (e) {
+    console.log(e);
     return;
   }
 }

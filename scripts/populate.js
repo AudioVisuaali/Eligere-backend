@@ -28,6 +28,8 @@ const genres = [
 
 const exampleUser = {
   username: 'root',
+  firstName: 'root',
+  surname: 'toor',
   displayName: 'Admin',
   password: 'toor',
 };

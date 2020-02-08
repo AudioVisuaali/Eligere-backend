@@ -16,7 +16,7 @@ module.exports = {
     return !!existingUser;
   },
 
-  updateDisplayName: async ({ displayName }, req) => {
+  updateProfile: async ({ displayName, firstName, surname }, req) => {
     if (!req.isAuth) {
       return unAuthenticated();
     }
@@ -25,9 +25,13 @@ module.exports = {
       where: { identifier: req.userIdentifier },
     });
 
-    await user.update({ displayName });
+    await user.update({ displayName, firstName, surname });
 
-    return user.displayName;
+    return {
+      displayName,
+      firstName,
+      surname,
+    };
   },
 
   updatePassword: async ({ oldPassword, newPassword }, req) => {
@@ -53,6 +57,6 @@ module.exports = {
 
     await user.update({ password: hashedPassword });
 
-    return user.displayName;
+    return null;
   },
 };
