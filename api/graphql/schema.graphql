@@ -118,7 +118,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(password: String!, username: String!): User!
+  createUser(password: String!, name: String!, username: String!): User!
   updateProfile(displayName: String!, name: String!): User!
   updatePassword(oldPassword: String!, newPassword: String!): Boolean
   trailer(identifier: String!): Trailer!
