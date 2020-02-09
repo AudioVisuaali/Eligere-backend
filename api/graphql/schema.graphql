@@ -27,12 +27,6 @@ type Ratings {
   googleUsers: Int
 }
 
-type ProfileUpdate {
-  displayName: String!
-  firstName: String!
-  surname: String!
-}
-
 type Movie {
   identifier: ID!
   title: String!
@@ -101,8 +95,7 @@ type AuthData {
 type User {
   identifier: ID!
   username: String!
-  firstName: String!
-  surname: String!
+  name: String!
   displayName: String!
   createdAt: String!
   polls: [Poll!]!
@@ -126,11 +119,7 @@ type Query {
 
 type Mutation {
   createUser(password: String!, username: String!): User!
-  updateProfile(
-    displayName: String!
-    firstName: String!
-    surname: String!
-  ): ProfileUpdate!
+  updateProfile(displayName: String!, name: String!): User!
   updatePassword(oldPassword: String!, newPassword: String!): Boolean
   trailer(identifier: String!): Trailer!
   deleteSession(identifier: String!): Boolean

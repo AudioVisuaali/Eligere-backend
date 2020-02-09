@@ -16,7 +16,7 @@ module.exports = {
     return !!existingUser;
   },
 
-  updateProfile: async ({ displayName, firstName, surname }, req) => {
+  updateProfile: async ({ displayName, name }, req) => {
     if (!req.isAuth) {
       return unAuthenticated();
     }
@@ -25,13 +25,24 @@ module.exports = {
       where: { identifier: req.userIdentifier },
     });
 
-    await user.update({ displayName, firstName, surname });
+    let isChanges = false;
+    const modifiedFields = {};
 
-    return {
-      displayName,
-      firstName,
-      surname,
-    };
+    if (displayName) {
+      isChanges = true;
+      modifiedFields.displayName = displayName;
+    }
+
+    if (name) {
+      isChanges = true;
+      modifiedFields.name = name;
+    }
+
+    if (isChanges) {
+      await user.update({ displayName, name });
+    }
+
+    return modifiedFields;
   },
 
   updatePassword: async ({ oldPassword, newPassword }, req) => {

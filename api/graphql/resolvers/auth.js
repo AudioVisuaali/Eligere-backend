@@ -8,7 +8,7 @@ const { passwordCheck, usernameCheck } = require('../../utils/checks');
 const loginErrorMsg = 'User or password incorrect!';
 
 module.exports = {
-  createUser: async ({ username, password }) => {
+  createUser: async ({ username, password, name }) => {
     const existingUser = await models.User.findOne({
       where: {
         username: {
@@ -34,6 +34,7 @@ module.exports = {
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await models.User.create({
       username,
+      name,
       displayName: username,
       createdAt: new Date(),
       password: hashedPassword,
