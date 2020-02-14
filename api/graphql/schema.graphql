@@ -63,15 +63,15 @@ type Poll {
   identifier: ID!
   title: String!
   description: String!
-  userRequired: Boolean!
   createdAt: String!
   opensAt: String
   closesAt: String
   movies: [Movie!]!
   community: Community
   totalVotes: Int!
-  allowComments: Boolean!
   allowMovieSuggestions: Boolean!
+  voteDuplicationChecking: String!
+  requireUserForSuggesting: Boolean!
 }
 
 input CommunityCreate {
@@ -143,10 +143,10 @@ type Mutation {
     opensAt: String
     closesAt: String
     totalVotes: Int!
-    userRequired: Boolean!
-    allowComments: Boolean!
     allowMovieSuggestions: Boolean!
     community: CommunityCreate
+    voteDuplicationChecking: String!
+    requireUserForSuggesting: Boolean!
   ): Poll!
   updateTrailer(identifier: String!, url: String!): Trailer!
   updateCommunity(
@@ -158,12 +158,12 @@ type Mutation {
   createPoll(
     title: String!
     description: String!
-    userRequired: Boolean!
     opensAt: String
     closesAt: String
     community: CommunityCreate
     totalVotes: Int!
-    allowComments: Boolean!
+    voteDuplicationChecking: String!
+    requireUserForSuggesting: Boolean!
     allowMovieSuggestions: Boolean!
   ): Poll!
 

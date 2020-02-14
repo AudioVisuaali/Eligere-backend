@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    userRequired: {
+
+    requireUserForSuggesting: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
@@ -32,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    allowComments: {
-      type: DataTypes.BOOLEAN,
+    voteDuplicationChecking: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     allowMovieSuggestions: {

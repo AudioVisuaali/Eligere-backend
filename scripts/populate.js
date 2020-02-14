@@ -42,8 +42,9 @@ const examplePoll = {
   opensAt: null,
   closesAt: null,
   totalVotes: 1,
-  allowComments: false,
   allowMovieSuggestions: false,
+  voteDuplicationChecking: 'IP',
+  requireUserForSuggesting: false,
 };
 
 const exampleMovie = {
