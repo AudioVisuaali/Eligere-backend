@@ -23,6 +23,7 @@ function formatPoll(poll) {
     opensAt: opensAt ? new Date(opensAt).toString() : null,
     closesAt: closesAt ? new Date(closesAt).toString() : null,
     createdAt: createdAt ? new Date(createdAt).toString() : null,
+    votes: () => poll.getVotes(formatVote).map(formatVote),
   };
 }
 
@@ -47,6 +48,16 @@ function formatMovie(movie) {
     genres: () => movie.getGenres().map(formatGenre),
     trailers: () => movie.getTrailers().map(formatTrailer),
     createdAt: createdAt ? new Date(createdAt).toString() : null,
+    votes: () => movie.getVotes().map(formatVote),
+  };
+}
+
+function formatVote(vote) {
+  return {
+    ...vote.dataValues,
+    user: () => vote.getUser(),
+    poll: () => vote.getPoll(),
+    movie: () => vote.getMovie(),
   };
 }
 

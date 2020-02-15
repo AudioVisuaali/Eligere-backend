@@ -49,10 +49,14 @@ module.exports = {
       closesAt,
       community,
       totalVotes,
-      allowComments,
       allowMovieSuggestions,
+      voteDuplicationChecking,
+      requireUserForSuggesting,
     } = args;
 
+    if (!['IP', 'USER', 'COOKIE'].includes(voteDuplicationChecking)) {
+      throw new Error();
+    }
     if (!req.isAuth) {
       return unAuthenticated();
     }
@@ -69,8 +73,9 @@ module.exports = {
       closesAt: new Date(closesAt),
       userRequired,
       totalVotes,
-      allowComments,
       allowMovieSuggestions,
+      voteDuplicationChecking,
+      requireUserForSuggesting,
     });
 
     user.addPoll(poll.id);

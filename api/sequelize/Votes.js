@@ -23,7 +23,9 @@ module.exports = (sequelize, DataTypes) => {
 
   Votes.associate = models => {
     models.Votes.belongsTo(models.User);
+    models.Poll.hasMany(models.Votes);
     models.Votes.belongsTo(models.Poll);
+    models.Movie.hasMany(models.Votes);
     models.Votes.belongsTo(models.Movie);
   };
 

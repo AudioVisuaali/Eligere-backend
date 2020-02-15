@@ -6,6 +6,13 @@ type Imdb {
   stars: String
 }
 
+type Vote {
+  identifier: ID!
+  movie: Movie!
+  poll: Poll!
+  user: User!
+}
+
 type Trailer {
   identifier: ID!
   platform: String!
@@ -39,6 +46,7 @@ type Movie {
   ratings: Ratings!
   createdAt: String!
   poll: Poll!
+  votes: [Vote!]!
 }
 
 input InputRating {
@@ -72,6 +80,7 @@ type Poll {
   allowMovieSuggestions: Boolean!
   voteDuplicationChecking: String!
   requireUserForSuggesting: Boolean!
+  votes: [Vote!]!
 }
 
 input CommunityCreate {
@@ -118,6 +127,7 @@ type Query {
 }
 
 type Mutation {
+  createVote(movies: [Int!]!): Vote!
   createUser(password: String!, name: String!, username: String!): User!
   updateProfile(displayName: String!, name: String!): User!
   updatePassword(oldPassword: String!, newPassword: String!): Boolean

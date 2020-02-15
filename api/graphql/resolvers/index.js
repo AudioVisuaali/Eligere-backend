@@ -8,6 +8,7 @@ const trailer = require('./trailer');
 const session = require('./session');
 const community = require('./community');
 const imdb = require('./imdb');
+const votes = require('./votes');
 
 module.exports = {
   ...auth,
@@ -20,4 +21,5 @@ module.exports = {
   ...session,
   ...community,
   ...imdb,
+  ...votes,
 };
