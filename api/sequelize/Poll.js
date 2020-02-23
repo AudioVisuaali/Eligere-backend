@@ -46,6 +46,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Poll.associate = models => {
+    models.Poll.hasMany(models.Votes);
     models.Poll.belongsTo(models.User, { onDelete: 'CASCADE' });
     models.Poll.belongsTo(models.Community, { onDelete: 'CASCADE' });
     models.Poll.hasMany(models.Movie, {

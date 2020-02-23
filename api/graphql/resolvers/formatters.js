@@ -1,3 +1,5 @@
+const models = require('../../sequelize');
+
 function movieFromJSON(movie) {
   const { imdb, rottenTomatoes, metacritic, googleUsers } = movie.ratings;
   return {
@@ -24,6 +26,18 @@ function formatPoll(poll) {
     closesAt: closesAt ? new Date(closesAt).toString() : null,
     createdAt: createdAt ? new Date(createdAt).toString() : null,
     votes: () => poll.getVotes(formatVote).map(formatVote),
+    myVotes: async (obj, args) => {
+      const user = await models.User.findOne({
+        identifier: args.userIdentifier,
+      });
+
+      if (!user) {
+        return 0;
+      }
+      const votes = await poll.getVotes({ user_id: user.id });
+
+      return votes.length;
+    },
   };
 }
 
@@ -49,6 +63,19 @@ function formatMovie(movie) {
     trailers: () => movie.getTrailers().map(formatTrailer),
     createdAt: createdAt ? new Date(createdAt).toString() : null,
     votes: () => movie.getVotes().map(formatVote),
+    voted: async (obj, args) => {
+      const user = await models.User.findOne({
+        identifier: args.userIdentifier,
+      });
+
+      if (!user) {
+        return 0;
+      }
+
+      const votes = await movie.getVotes({ user_id: user.id });
+
+      return !!votes.length;
+    },
   };
 }
 
@@ -99,6 +126,7 @@ function formatTrailer(preview) {
 module.exports = {
   movieFromJSON,
   formatPoll,
+  formatVote,
   formatMovie,
   formatTrailer,
   formatGenre,

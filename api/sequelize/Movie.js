@@ -54,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Movie.associate = models => {
+    models.Movie.hasMany(models.Votes);
     models.Movie.belongsTo(models.Poll, { onDelete: 'CASCADE' });
     models.Movie.hasMany(models.Trailer, {
       onDelete: 'CASCADE',

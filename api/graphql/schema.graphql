@@ -47,6 +47,7 @@ type Movie {
   createdAt: String!
   poll: Poll!
   votes: [Vote!]!
+  voted: Boolean!
 }
 
 input InputRating {
@@ -81,6 +82,7 @@ type Poll {
   voteDuplicationChecking: String!
   requireUserForSuggesting: Boolean!
   votes: [Vote!]!
+  myVotes: Int!
 }
 
 input CommunityCreate {
@@ -127,7 +129,7 @@ type Query {
 }
 
 type Mutation {
-  createVote(movies: [Int!]!): Vote!
+  createVote(movie: ID!, poll: ID!): Vote!
   createUser(password: String!, name: String!, username: String!): User!
   updateProfile(displayName: String!, name: String!): User!
   updatePassword(oldPassword: String!, newPassword: String!): Boolean
@@ -180,4 +182,5 @@ type Mutation {
   deleteTrailer(identifier: String!): Boolean
   deleteMovie(identifier: String!): Boolean
   deletePoll(identifier: String!): Boolean
+  deleteVote(identifier: String!): Boolean
 }
